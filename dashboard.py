@@ -1,4 +1,7 @@
 import os
+from pathlib import Path
+
+import numpy as np
 import pandas as pd
 import streamlit as st
 
@@ -7,21 +10,16 @@ import streamlit as st
 # 1. PROJECT PATH
 # ============================================================
 
-BASE_DIR = os.path.dirname(
-    os.path.abspath(__file__)
-)
+BASE_DIR = Path(__file__).resolve().parent
 
 
 # ============================================================
 # 2. PATHS
 # ============================================================
 
-DATA_PATH = r"C:\Users\samyu\Desktop\archive (2)\GlucoBench_benchmark_dataset.csv"
+DATA_PATH = BASE_DIR / "Data" / "GlucoBench_benchmark_dataset.csv"
 
-OUTPUT_PATH = os.path.join(
-    BASE_DIR,
-    "Output"
-)
+OUTPUT_PATH = BASE_DIR / "Output"
 
 
 # ============================================================
@@ -40,7 +38,7 @@ st.set_page_config(
 # ============================================================
 
 st.title("📊 GlucoBench Machine Learning Dashboard")
-
+st.caption("GlucoBench ML Dashboard — data analysis and model insights")
 st.write(
     "Analysis, preprocessing, machine learning models, "
     "clustering and PCA results."
@@ -54,14 +52,10 @@ st.write(
 @st.cache_data
 def load_data():
 
-    return pd.read_csv(
-        DATA_PATH
-    )
+    return pd.read_csv(DATA_PATH)
 
 
 df = load_data()
-
-
 # ============================================================
 # 6. SIDEBAR
 # ============================================================
