@@ -38,7 +38,7 @@ st.set_page_config(
 # ============================================================
 
 st.title("📊 GlucoBench Machine Learning Dashboard")
-st.caption("GlucoBench ML Dashboard — data analysis and model insights")
+st.caption("Explore the dataset, models, clustering and PCA results.")
 st.write(
     "Analysis, preprocessing, machine learning models, "
     "clustering and PCA results."
