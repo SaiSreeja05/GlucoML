@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{% block title %}GlucoBench ML Dashboard{% endblock %}</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<div class="layout">
+
+    <aside class="sidebar">
+
+        <div class="logo">
+            <div class="logo-icon">G</div>
+            <div>
+                <h2>GlucoBench</h2>
+                <span>ML Dashboard</span>
+            </div>
+        </div>
+
+        <nav>
+
+            <a href="{{ url_for('home') }}" class="nav-item">
+                🏠 Dashboard
+            </a>
+
+            <div class="nav-title">MODULE 1</div>
+
+            <a href="{{ url_for('session', section='eda') }}" class="nav-item">
+                📊 EDA
+            </a>
+
+            <div class="nav-title">MODULE 2</div>
+
+            <a href="{{ url_for('session', section='preprocessing') }}" class="nav-item">
+                ⚙️ Preprocessing
+            </a>
+
+            <a href="{{ url_for('session', section='one-hot') }}" class="nav-item">
+                🔤 One-Hot Encoding
+            </a>
+
+            <a href="{{ url_for('session', section='linear') }}" class="nav-item">
+                📈 Linear Regression
+            </a>
+
+            <a href="{{ url_for('session', section='ridge') }}" class="nav-item">
+                📉 Ridge Regression
+            </a>
+
+            <a href="{{ url_for('session', section='lasso') }}" class="nav-item">
+                📉 Lasso Regression
+            </a>
+
+            <a href="{{ url_for('session', section='logistic') }}" class="nav-item">
+                🎯 Logistic Regression
+            </a>
+
+            <div class="nav-title">MODULE 3</div>
+
+            <a href="{{ url_for('session', section='decision-tree') }}" class="nav-item">
+                🌳 Decision Tree
+            </a>
+
+            <a href="{{ url_for('session', section='random-forest') }}" class="nav-item">
+                🌲 Random Forest
+            </a>
+
+            <a href="{{ url_for('session', section='adaboost') }}" class="nav-item">
+                🚀 AdaBoost
+            </a>
+
+            <a href="{{ url_for('session', section='gradient-boosting') }}" class="nav-item">
+                ⚡ Gradient Boosting
+            </a>
+
+            <a href="{{ url_for('session', section='xgboost') }}" class="nav-item">
+                🔥 XGBoost
+            </a>
+
+            <a href="{{ url_for('session', section='lightgbm') }}" class="nav-item">
+                💡 LightGBM
+            </a>
+
+            <div class="nav-title">MODULE 4</div>
+
+            <a href="{{ url_for('session', section='kmeans') }}" class="nav-item">
+                🔵 K-Means
+            </a>
+
+            <a href="{{ url_for('session', section='dbscan') }}" class="nav-item">
+                🟣 DBSCAN
+            </a>
+
+            <a href="{{ url_for('session', section='pca') }}" class="nav-item">
+                📐 PCA
+            </a>
+
+            <a href="{{ url_for('session', section='comparison') }}" class="nav-item">
+                🏆 Model Comparison
+            </a>
+
+        </nav>
+
+        <div class="sidebar-footer">
+            <span>Machine Learning Project</span>
+        </div>
+
+    </aside>
+
+
+    <main class="main-content">
+
+        <header class="topbar">
+
+            <div>
+                <h1>{% block header %}GlucoBench ML Dashboard{% endblock %}</h1>
+                <p>Machine Learning Analysis Platform</p>
+            </div>
+
+            <div class="dataset-badge">
+                Dataset: GlucoBench
+            </div>
+
+        </header>
+
+
+        <section class="content">
+
+            {% block content %}
+            {% endblock %}
+
+        </section>
+
+    </main>
+
+</div>
+
+</body>
+</html>
