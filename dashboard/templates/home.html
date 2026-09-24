@@ -1,0 +1,160 @@
+{% extends "base.html" %}
+
+{% block title %}Home | GlucoBench{% endblock %}
+
+{% block header %}
+GlucoBench ML Dashboard
+{% endblock %}
+
+{% block content %}
+
+<div class="hero">
+
+    <div>
+        <span class="hero-label">MACHINE LEARNING PROJECT</span>
+
+        <h2>GlucoBench<br>Analysis Dashboard</h2>
+
+        <p>
+            Explore the dataset, preprocessing techniques,
+            regression models, classification, boosting,
+            clustering and dimensionality reduction.
+        </p>
+
+        <a href="{{ url_for('session', section='eda') }}"
+           class="primary-button">
+            Start Analysis →
+        </a>
+    </div>
+
+    <div class="hero-icon">
+        📊
+    </div>
+
+</div>
+
+
+<div class="section-heading">
+    <h2>Dataset Overview</h2>
+    <p>Basic information about the GlucoBench benchmark dataset.</p>
+</div>
+
+
+<div class="stats-grid">
+
+    <div class="stat-card">
+        <div class="stat-icon">📋</div>
+        <div>
+            <span>Records</span>
+            <strong>{{ info.rows }}</strong>
+        </div>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-icon">🔢</div>
+        <div>
+            <span>Features</span>
+            <strong>{{ info.columns }}</strong>
+        </div>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-icon">⚠️</div>
+        <div>
+            <span>Missing Values</span>
+            <strong>{{ info.missing }}</strong>
+        </div>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-icon">♻️</div>
+        <div>
+            <span>Duplicates</span>
+            <strong>{{ info.duplicates }}</strong>
+        </div>
+    </div>
+
+</div>
+
+
+<div class="section-heading">
+    <h2>Machine Learning Modules</h2>
+</div>
+
+
+<div class="module-grid">
+
+    <a href="{{ url_for('session', section='eda') }}"
+       class="module-card">
+        <div class="module-icon">📊</div>
+        <h3>EDA</h3>
+        <p>Explore distributions, correlations and dataset characteristics.</p>
+        <span>Explore →</span>
+    </a>
+
+
+    <a href="{{ url_for('session', section='preprocessing') }}"
+       class="module-card">
+        <div class="module-icon">⚙️</div>
+        <h3>Preprocessing</h3>
+        <p>Missing values, feature preparation and scaling techniques.</p>
+        <span>Explore →</span>
+    </a>
+
+
+    <a href="{{ url_for('session', section='linear') }}"
+       class="module-card">
+        <div class="module-icon">📈</div>
+        <h3>Regression</h3>
+        <p>Linear, Ridge and Lasso regression models.</p>
+        <span>Explore →</span>
+    </a>
+
+
+    <a href="{{ url_for('session', section='logistic') }}"
+       class="module-card">
+        <div class="module-icon">🎯</div>
+        <h3>Classification</h3>
+        <p>Binary Logistic Regression classification.</p>
+        <span>Explore →</span>
+    </a>
+
+
+    <a href="{{ url_for('session', section='random-forest') }}"
+       class="module-card">
+        <div class="module-icon">🌳</div>
+        <h3>Tree & Boosting</h3>
+        <p>Decision Tree, Random Forest and boosting algorithms.</p>
+        <span>Explore →</span>
+    </a>
+
+
+    <a href="{{ url_for('session', section='kmeans') }}"
+       class="module-card">
+        <div class="module-icon">🔵</div>
+        <h3>Clustering</h3>
+        <p>K-Means and DBSCAN clustering techniques.</p>
+        <span>Explore →</span>
+    </a>
+
+
+    <a href="{{ url_for('session', section='pca') }}"
+       class="module-card">
+        <div class="module-icon">📐</div>
+        <h3>PCA</h3>
+        <p>Dimensionality reduction and explained variance.</p>
+        <span>Explore →</span>
+    </a>
+
+
+    <a href="{{ url_for('session', section='comparison') }}"
+       class="module-card">
+        <div class="module-icon">🏆</div>
+        <h3>Model Comparison</h3>
+        <p>Compare regression model performance metrics.</p>
+        <span>Explore →</span>
+    </a>
+
+</div>
+
+{% endblock %}

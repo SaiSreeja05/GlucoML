@@ -1,0 +1,1817 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{ section.title }} | GlucoBench
+{% endblock %}
+
+{% block header %}
+{{ section.title }}
+{% endblock %}
+
+{% block content %}
+
+<div class="page-intro">
+
+    <div>
+
+        <span class="hero-label">
+            ANALYSIS SESSION
+        </span>
+
+        <h2>
+            {{ section.title }}
+        </h2>
+
+        <p>
+            {{ section.description }}
+        </p>
+
+    </div>
+
+    <a href="{{ url_for('home') }}"
+       class="secondary-button">
+        ← Dashboard
+    </a>
+
+</div>
+
+
+<!-- ========================================================= -->
+<!-- EDA -->
+<!-- ========================================================= -->
+
+{% if section.type == "eda" %}
+
+<div class="section-heading">
+
+    <h2>
+        Exploratory Data Analysis
+    </h2>
+
+    <p>
+        Eight selected plots are used to understand the glucose data,
+        distributions, outliers, missing values, correlations and
+        relationships between important features and glucose.
+    </p>
+
+</div>
+
+
+<div class="plot-grid">
+
+    <!-- 1 -->
+
+    <div class="plot-card">
+
+        <h3>
+            1. Glucose Distribution
+        </h3>
+
+        <p class="plot-description">
+            Shows how glucose values are distributed across the dataset.
+        </p>
+
+        <img
+            src="{{ url_for('plots', filename='glucose_distribution.png') }}"
+            alt="Glucose Distribution"
+        >
+
+    </div>
+
+
+    <!-- 2 -->
+
+    <div class="plot-card">
+
+        <h3>
+            2. Glucose Boxplot
+        </h3>
+
+        <p class="plot-description">
+            Shows the median, spread and possible outliers in glucose values.
+        </p>
+
+        <img
+            src="{{ url_for('plots', filename='glucose_boxplot.png') }}"
+            alt="Glucose Boxplot"
+        >
+
+    </div>
+
+
+    <!-- 3 -->
+
+    <div class="plot-card">
+
+        <h3>
+            3. Missing Values
+        </h3>
+
+        <p class="plot-description">
+            Shows which columns contain missing values and how many values
+            are missing.
+        </p>
+
+        <img
+            src="{{ url_for('plots', filename='missing_values.png') }}"
+            alt="Missing Values"
+        >
+
+    </div>
+
+
+    <!-- 4 -->
+
+    <div class="plot-card">
+
+        <h3>
+            4. Correlation Heatmap
+        </h3>
+
+        <p class="plot-description">
+            Shows the strength and direction of relationships between
+            numerical features.
+        </p>
+
+        <img
+            src="{{ url_for('plots', filename='correlation_heatmap.png') }}"
+            alt="Correlation Heatmap"
+        >
+
+    </div>
+
+
+    <!-- 5 -->
+
+    <div class="plot-card">
+
+        <h3>
+            5. Carbs vs Glucose
+        </h3>
+
+        <p class="plot-description">
+            Shows the relationship between carbohydrate intake and glucose.
+        </p>
+
+        <img
+            src="{{ url_for('plots', filename='carbs_vs_glucose.png') }}"
+            alt="Carbs vs Glucose"
+        >
+
+    </div>
+
+
+    <!-- 6 -->
+
+    <div class="plot-card">
+
+        <h3>
+            6. Insulin Bolus vs Glucose
+        </h3>
+
+        <p class="plot-description">
+            Shows the relationship between insulin bolus and glucose values.
+        </p>
+
+        <img
+            src="{{ url_for('plots', filename='insulin_bolus_vs_glucose.png') }}"
+            alt="Insulin Bolus vs Glucose"
+        >
+
+    </div>
+
+
+    <!-- 7 -->
+
+    <div class="plot-card">
+
+        <h3>
+            7. Exercise Steps vs Glucose
+        </h3>
+
+        <p class="plot-description">
+            Shows the relationship between physical activity and glucose.
+        </p>
+
+        <img
+            src="{{ url_for('plots', filename='exercise_steps_vs_glucose.png') }}"
+            alt="Exercise Steps vs Glucose"
+        >
+
+    </div>
+
+
+    <!-- 8 -->
+
+    <div class="plot-card">
+
+        <h3>
+            8. Stress Level vs Glucose
+        </h3>
+
+        <p class="plot-description">
+            Shows the relationship between stress level and glucose.
+        </p>
+
+        <img
+            src="{{ url_for('plots', filename='stress_level_vs_glucose.png') }}"
+            alt="Stress Level vs Glucose"
+        >
+
+    </div>
+
+</div>
+
+
+<!-- ========================================================= -->
+<!-- PREPROCESSING -->
+<!-- ========================================================= -->
+
+{% elif section.type == "preprocessing" %}
+
+<div class="info-grid">
+
+    <div class="info-card">
+
+        <h3>
+            Preprocessed Data
+        </h3>
+
+        <p>
+            Missing values are handled and unnecessary columns are removed.
+        </p>
+
+        <a
+            href="{{ url_for('output_file', filename='preprocessed_data.csv') }}"
+            class="download-button"
+        >
+            View CSV
+        </a>
+
+    </div>
+
+
+    <div class="info-card">
+
+        <h3>
+            Standard Scaling
+        </h3>
+
+        <p>
+            StandardScaler changes values using the mean and standard
+            deviation.
+        </p>
+
+        <div class="formula-box">
+            z = (x - mean) / standard deviation
+        </div>
+
+        <a
+            href="{{ url_for('output_file', filename='standard_scaled_data.csv') }}"
+            class="download-button"
+        >
+            View CSV
+        </a>
+
+    </div>
+
+
+    <div class="info-card">
+
+        <h3>
+            Min-Max Scaling
+        </h3>
+
+        <p>
+            Values are converted to a range between 0 and 1.
+        </p>
+
+        <div class="formula-box">
+            x' = (x - min) / (max - min)
+        </div>
+
+        <a
+            href="{{ url_for('output_file', filename='minmax_scaled_data.csv') }}"
+            class="download-button"
+        >
+            View CSV
+        </a>
+
+    </div>
+
+
+    <div class="info-card">
+
+        <h3>
+            Robust Scaling
+        </h3>
+
+        <p>
+            RobustScaler uses the median and interquartile range.
+        </p>
+
+        <div class="formula-box">
+            x' = (x - median) / IQR
+        </div>
+
+        <a
+            href="{{ url_for('output_file', filename='robust_scaled_data.csv') }}"
+            class="download-button"
+        >
+            View CSV
+        </a>
+
+    </div>
+
+</div>
+
+
+<!-- ========================================================= -->
+<!-- ONE HOT ENCODING -->
+<!-- ========================================================= -->
+
+{% elif section.type == "one-hot" %}
+
+<div class="info-card large-card">
+
+    <h3>
+        One-Hot Encoding
+    </h3>
+
+    <p>
+        Each categorical value is converted into a separate binary column.
+        A selected category receives 1 and the other categories receive 0.
+    </p>
+
+    <div class="formula-box">
+        Category = Breakfast → meal_type_breakfast = 1
+    </div>
+
+
+    <h3 class="sub-heading">
+        Encoded Columns
+    </h3>
+
+
+    <div class="encoded-columns">
+
+        {% for column in encoded_columns %}
+
+        <span class="column-tag">
+            {{ column }}
+        </span>
+
+        {% endfor %}
+
+    </div>
+
+
+    {% if data is not none %}
+
+    <div class="calculation-box">
+
+        <h3>
+            Dataset Calculation
+        </h3>
+
+        <p>
+            Rows:
+            <strong>{{ data|length }}</strong>
+        </p>
+
+        <p>
+            Columns after encoding:
+            <strong>{{ data.shape[1] }}</strong>
+        </p>
+
+        <p>
+            One-hot encoding converts categorical values into numerical
+            0 and 1 columns so that machine learning algorithms can use them.
+        </p>
+
+    </div>
+
+
+    <div class="table-wrapper">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    {% for column in data.columns %}
+
+                    <th>
+                        {{ column }}
+                    </th>
+
+                    {% endfor %}
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                {% for row in data.head(10).itertuples(index=False) %}
+
+                <tr>
+
+                    {% for value in row %}
+
+                    <td>
+                        {{ value }}
+                    </td>
+
+                    {% endfor %}
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+    {% endif %}
+
+</div>
+
+
+<!-- ========================================================= -->
+<!-- REGRESSION MODELS -->
+<!-- ========================================================= -->
+
+{% elif section.type == "model" %}
+
+<div class="calculation-box">
+
+    <h3>
+        How {{ section.title }} Calculates Glucose
+    </h3>
+
+
+    {% if section_name == "linear" %}
+
+    <p>
+        Linear Regression learns a relationship between input features
+        and glucose.
+    </p>
+
+    <div class="formula-box">
+        ŷ = b₀ + b₁x₁ + b₂x₂ + ... + bₙxₙ
+    </div>
+
+    <p>
+        The model multiplies each input feature by its learned coefficient
+        and adds them together with the intercept.
+    </p>
+
+
+    {% elif section_name == "ridge" %}
+
+    <p>
+        Ridge Regression is Linear Regression with L2 regularization.
+    </p>
+
+    <div class="formula-box">
+        Cost = Σ(y − ŷ)² + αΣw²
+    </div>
+
+    <p>
+        The first part measures prediction error. The second part penalizes
+        large coefficients.
+    </p>
+
+    <p>
+        In this project, α controls the strength of regularization.
+    </p>
+
+
+    {% elif section_name == "lasso" %}
+
+    <p>
+        Lasso Regression is Linear Regression with L1 regularization.
+    </p>
+
+    <div class="formula-box">
+        Cost = Σ(y − ŷ)² + αΣ|w|
+    </div>
+
+    <p>
+        Lasso adds a penalty based on the absolute value of coefficients.
+        Some coefficients can become zero.
+    </p>
+
+
+    {% elif section_name == "adaboost" %}
+
+    <p>
+        AdaBoost combines several weak regression trees. Later trees focus
+        more on observations that were predicted poorly.
+    </p>
+
+    <div class="formula-box">
+        Final Prediction = Weighted Combination of Weak Learners
+    </div>
+
+
+    {% elif section_name == "gradient-boosting" %}
+
+    <p>
+        Gradient Boosting builds trees sequentially. Each new tree attempts
+        to reduce the errors made by the previous trees.
+    </p>
+
+    <div class="formula-box">
+        New Prediction =
+        Previous Prediction + Learning Rate × New Tree
+    </div>
+
+
+    {% elif section_name == "xgboost" %}
+
+    <p>
+        XGBoost builds decision trees sequentially and minimizes prediction
+        loss together with regularization.
+    </p>
+
+    <div class="formula-box">
+        Objective = Loss + Regularization
+    </div>
+
+
+    {% elif section_name == "lightgbm" %}
+
+    <p>
+        LightGBM uses gradient boosting and builds trees efficiently by
+        selecting useful splits that reduce prediction error.
+    </p>
+
+    <div class="formula-box">
+        New Prediction =
+        Previous Prediction + Tree Contribution
+    </div>
+
+    {% endif %}
+
+</div>
+
+
+{% if metrics %}
+
+<div class="section-heading">
+
+    <h2>
+        Model Evaluation Calculations
+    </h2>
+
+    <p>
+        These metrics are calculated from the actual and predicted glucose
+        values in the test dataset.
+    </p>
+
+</div>
+
+
+<div class="model-metrics">
+
+    <div class="metric-card">
+
+        <span>
+            MAE
+        </span>
+
+        <strong>
+            {{ metrics.mae }}
+        </strong>
+
+        <small>
+            Average absolute error
+        </small>
+
+    </div>
+
+
+    <div class="metric-card">
+
+        <span>
+            MSE
+        </span>
+
+        <strong>
+            {{ metrics.mse }}
+        </strong>
+
+        <small>
+            Average squared error
+        </small>
+
+    </div>
+
+
+    <div class="metric-card">
+
+        <span>
+            RMSE
+        </span>
+
+        <strong>
+            {{ metrics.rmse }}
+        </strong>
+
+        <small>
+            Square root of MSE
+        </small>
+
+    </div>
+
+
+    <div class="metric-card">
+
+        <span>
+            R²
+        </span>
+
+        <strong>
+            {{ metrics.r2 }}
+        </strong>
+
+        <small>
+            Explained variation
+        </small>
+
+    </div>
+
+</div>
+
+
+<div class="calculation-box">
+
+    <h3>
+        Metric Formulas
+    </h3>
+
+    <p>
+        <strong>
+            Error = Actual Glucose − Predicted Glucose
+        </strong>
+    </p>
+
+    <p>
+        <strong>
+            MAE = Σ|Actual − Predicted| / n
+        </strong>
+    </p>
+
+    <p>
+        MAE is the average absolute difference between actual and predicted
+        glucose.
+    </p>
+
+    <p>
+        <strong>
+            MSE = Σ(Actual − Predicted)² / n
+        </strong>
+    </p>
+
+    <p>
+        MSE squares every error before taking the average.
+    </p>
+
+    <p>
+        <strong>
+            RMSE = √MSE
+        </strong>
+    </p>
+
+    <p>
+        RMSE gives the prediction error in the same units as glucose.
+    </p>
+
+    <p>
+        <strong>
+            R² = 1 − SSres / SStot
+        </strong>
+    </p>
+
+    <p>
+        R² represents how much variation in glucose is explained by the
+        model.
+    </p>
+
+</div>
+
+
+{% endif %}
+
+
+{% if data is not none %}
+
+<div class="info-card large-card">
+
+    <h3>
+        Sample Prediction Calculation
+    </h3>
+
+    {% set first_row = data.iloc[0] %}
+
+    <div class="example-calculation">
+
+        <p>
+            Actual Glucose =
+            <strong>
+                {{ "%.4f"|format(first_row["Actual Glucose"]) }}
+            </strong>
+        </p>
+
+        <p>
+            Predicted Glucose =
+            <strong>
+                {{ "%.4f"|format(first_row["Predicted Glucose"]) }}
+            </strong>
+        </p>
+
+        <p>
+            Error =
+            <strong>
+                {{ "%.4f"|format(first_row["Actual Glucose"] - first_row["Predicted Glucose"]) }}
+            </strong>
+        </p>
+
+        <p>
+            Absolute Error =
+            <strong>
+                {{ "%.4f"|format((first_row["Actual Glucose"] - first_row["Predicted Glucose"])|abs) }}
+            </strong>
+        </p>
+
+        <p>
+            Squared Error =
+            <strong>
+                {{ "%.4f"|format((first_row["Actual Glucose"] - first_row["Predicted Glucose"]) ** 2) }}
+            </strong>
+        </p>
+
+    </div>
+
+</div>
+
+
+<div class="info-card large-card">
+
+    <h3>
+        Sample Prediction Data
+    </h3>
+
+    <div class="table-wrapper">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    {% for column in data.columns %}
+
+                    <th>
+                        {{ column }}
+                    </th>
+
+                    {% endfor %}
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                {% for row in data.head(10).itertuples(index=False) %}
+
+                <tr>
+
+                    {% for value in row %}
+
+                    <td>
+                        {{ value }}
+                    </td>
+
+                    {% endfor %}
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+{% endif %}
+
+
+<!-- ========================================================= -->
+<!-- DECISION TREE / RANDOM FOREST -->
+<!-- ========================================================= -->
+
+{% elif section.type == "tree" %}
+
+{% if metrics %}
+
+<div class="model-metrics">
+
+    <div class="metric-card">
+
+        <span>
+            MAE
+        </span>
+
+        <strong>
+            {{ metrics.mae }}
+        </strong>
+
+        <small>
+            Average error
+        </small>
+
+    </div>
+
+
+    <div class="metric-card">
+
+        <span>
+            MSE
+        </span>
+
+        <strong>
+            {{ metrics.mse }}
+        </strong>
+
+        <small>
+            Squared error
+        </small>
+
+    </div>
+
+
+    <div class="metric-card">
+
+        <span>
+            RMSE
+        </span>
+
+        <strong>
+            {{ metrics.rmse }}
+        </strong>
+
+        <small>
+            Prediction error
+        </small>
+
+    </div>
+
+
+    <div class="metric-card">
+
+        <span>
+            R²
+        </span>
+
+        <strong>
+            {{ metrics.r2 }}
+        </strong>
+
+        <small>
+            Explained variation
+        </small>
+
+    </div>
+
+</div>
+
+{% endif %}
+
+
+<div class="calculation-box">
+
+    {% if section_name == "decision-tree" %}
+
+    <h3>
+        Decision Tree Calculation
+    </h3>
+
+    <p>
+        The Decision Tree repeatedly splits the data into smaller groups.
+        Each split is selected to reduce prediction error.
+    </p>
+
+    <div class="formula-box">
+        Prediction = Average Glucose Value in the Final Leaf
+    </div>
+
+    <p>
+        A new data point follows the decision rules from the root to a leaf.
+        The value stored in that leaf becomes the prediction.
+    </p>
+
+    {% else %}
+
+    <h3>
+        Random Forest Calculation
+    </h3>
+
+    <p>
+        Random Forest creates multiple decision trees and combines their
+        predictions.
+    </p>
+
+    <div class="formula-box">
+        Final Prediction =
+        Average of Predictions from All Trees
+    </div>
+
+    <p>
+        The visualization below shows Tree 1 from the Random Forest.
+    </p>
+
+    {% endif %}
+
+</div>
+
+
+{% if section.tree_image %}
+
+<div class="plot-card tree-card">
+
+    <h3>
+
+        {% if section_name == "decision-tree" %}
+
+        Decision Tree Visualization
+
+        {% else %}
+
+        Random Forest - Tree 1 Visualization
+
+        {% endif %}
+
+    </h3>
+
+
+    <p class="plot-description">
+
+        The tree shows the decision rules learned from the training data.
+
+    </p>
+
+
+    <div class="tree-container">
+
+        <img
+            src="{{ url_for('output_file', filename=section.tree_image) }}"
+            class="tree-image"
+            alt="Decision Tree"
+        >
+
+    </div>
+
+</div>
+
+{% endif %}
+
+
+{% if data is not none %}
+
+<div class="info-card large-card">
+
+    <h3>
+        Sample Prediction Calculation
+    </h3>
+
+    {% set first_row = data.iloc[0] %}
+
+    <div class="example-calculation">
+
+        <p>
+            Actual Glucose =
+            <strong>
+                {{ "%.4f"|format(first_row["Actual Glucose"]) }}
+            </strong>
+        </p>
+
+        <p>
+            Predicted Glucose =
+            <strong>
+                {{ "%.4f"|format(first_row["Predicted Glucose"]) }}
+            </strong>
+        </p>
+
+        <p>
+            Error =
+            <strong>
+                {{ "%.4f"|format(first_row["Actual Glucose"] - first_row["Predicted Glucose"]) }}
+            </strong>
+        </p>
+
+    </div>
+
+</div>
+
+{% endif %}
+
+
+<!-- ========================================================= -->
+<!-- LOGISTIC REGRESSION -->
+<!-- ========================================================= -->
+
+{% elif section.type == "classification" %}
+
+{% if logistic_metrics %}
+
+<div class="model-metrics">
+
+    <div class="metric-card">
+
+        <span>
+            Accuracy
+        </span>
+
+        <strong>
+            {{ logistic_metrics.accuracy }}
+        </strong>
+
+        <small>
+            Correct predictions
+        </small>
+
+    </div>
+
+
+    <div class="metric-card">
+
+        <span>
+            Precision
+        </span>
+
+        <strong>
+            {{ logistic_metrics.precision }}
+        </strong>
+
+        <small>
+            Correct positive predictions
+        </small>
+
+    </div>
+
+
+    <div class="metric-card">
+
+        <span>
+            Recall
+        </span>
+
+        <strong>
+            {{ logistic_metrics.recall }}
+        </strong>
+
+        <small>
+            Actual positive cases detected
+        </small>
+
+    </div>
+
+
+    <div class="metric-card">
+
+        <span>
+            F1 Score
+        </span>
+
+        <strong>
+            {{ logistic_metrics.f1 }}
+        </strong>
+
+        <small>
+            Balance of precision and recall
+        </small>
+
+    </div>
+
+</div>
+
+
+<div class="calculation-box">
+
+    <h3>
+        Logistic Regression Calculation
+    </h3>
+
+    <p>
+        Logistic Regression first calculates a weighted sum of the input
+        features.
+    </p>
+
+    <div class="formula-box">
+        z = b₀ + b₁x₁ + b₂x₂ + ... + bₙxₙ
+    </div>
+
+    <p>
+        The weighted sum is converted into a probability using the sigmoid
+        function.
+    </p>
+
+    <div class="formula-box">
+        P = 1 / (1 + e⁻ᶻ)
+    </div>
+
+    <p>
+        If the probability is at least 0.5, the predicted class is 1.
+        Otherwise, the predicted class is 0.
+    </p>
+
+</div>
+
+
+<div class="calculation-box">
+
+    <h3>
+        Confusion Matrix Calculation
+    </h3>
+
+    <p>
+        True Positive (TP) =
+        <strong>{{ logistic_metrics.tp }}</strong>
+    </p>
+
+    <p>
+        True Negative (TN) =
+        <strong>{{ logistic_metrics.tn }}</strong>
+    </p>
+
+    <p>
+        False Positive (FP) =
+        <strong>{{ logistic_metrics.fp }}</strong>
+    </p>
+
+    <p>
+        False Negative (FN) =
+        <strong>{{ logistic_metrics.fn }}</strong>
+    </p>
+
+
+    <hr>
+
+
+    <p>
+        <strong>
+            Accuracy = (TP + TN) /
+            (TP + TN + FP + FN)
+        </strong>
+    </p>
+
+    <p>
+        <strong>
+            Precision = TP / (TP + FP)
+        </strong>
+    </p>
+
+    <p>
+        <strong>
+            Recall = TP / (TP + FN)
+        </strong>
+    </p>
+
+    <p>
+        <strong>
+            F1 = 2 × Precision × Recall /
+            (Precision + Recall)
+        </strong>
+    </p>
+
+</div>
+
+{% endif %}
+
+
+{% if data is not none %}
+
+<div class="info-card large-card">
+
+    <h3>
+        Sample Classification Results
+    </h3>
+
+    <div class="table-wrapper">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    {% for column in data.columns %}
+
+                    <th>
+                        {{ column }}
+                    </th>
+
+                    {% endfor %}
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                {% for row in data.head(10).itertuples(index=False) %}
+
+                <tr>
+
+                    {% for value in row %}
+
+                    <td>
+                        {{ value }}
+                    </td>
+
+                    {% endfor %}
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+{% endif %}
+
+
+<!-- ========================================================= -->
+<!-- K-MEANS / DBSCAN -->
+<!-- ========================================================= -->
+
+{% elif section.type == "clustering" %}
+
+{% if cluster_info %}
+
+<div class="model-metrics">
+
+    <div class="metric-card">
+
+        <span>
+            Total Points
+        </span>
+
+        <strong>
+            {{ cluster_info.total_points }}
+        </strong>
+
+        <small>
+            Dataset observations
+        </small>
+
+    </div>
+
+
+    <div class="metric-card">
+
+        <span>
+            Clusters
+        </span>
+
+        <strong>
+            {{ cluster_info.clusters }}
+        </strong>
+
+        <small>
+            Groups discovered
+        </small>
+
+    </div>
+
+
+    <div class="metric-card">
+
+        <span>
+            Noise Points
+        </span>
+
+        <strong>
+            {{ cluster_info.noise_points }}
+        </strong>
+
+        <small>
+            DBSCAN noise
+        </small>
+
+    </div>
+
+
+    <div class="metric-card">
+
+        <span>
+            Cluster Labels
+        </span>
+
+        <strong>
+            {{ cluster_info.cluster_labels|join(", ") }}
+        </strong>
+
+        <small>
+            Detected groups
+        </small>
+
+    </div>
+
+</div>
+
+{% endif %}
+
+
+<div class="calculation-box">
+
+    {% if section_name == "kmeans" %}
+
+    <h3>
+        K-Means Calculation
+    </h3>
+
+    <p>
+        K-Means starts with a selected number of cluster centers called
+        centroids.
+    </p>
+
+    <div class="formula-box">
+        Distance = √Σ(xᵢ − cᵢ)²
+    </div>
+
+    <p>
+        Each data point is assigned to the nearest centroid.
+    </p>
+
+    <div class="formula-box">
+        New Centroid =
+        Sum of Points / Number of Points
+    </div>
+
+    <p>
+        The assignment and centroid calculation are repeated until the
+        clusters become stable.
+    </p>
+
+
+    {% else %}
+
+    <h3>
+        DBSCAN Calculation
+    </h3>
+
+    <p>
+        DBSCAN forms clusters based on the density of nearby points.
+        It does not require a fixed number of clusters.
+    </p>
+
+    <div class="formula-box">
+        Distance = √Σ(xᵢ − yᵢ)²
+    </div>
+
+    <p>
+        <strong>eps</strong> specifies the neighborhood radius.
+    </p>
+
+    <p>
+        <strong>min_samples</strong> specifies the minimum number of nearby
+        points needed to form a dense region.
+    </p>
+
+    <p>
+        Points that do not belong to a dense region are marked as
+        <strong>Noise = -1</strong>.
+    </p>
+
+    {% endif %}
+
+</div>
+
+
+{% if section.image %}
+
+<div class="plot-card large-plot">
+
+    <h3>
+        Cluster Visualization
+    </h3>
+
+    <p class="plot-description">
+
+        The plot shows how the observations are grouped into clusters.
+
+    </p>
+
+    <img
+        src="{{ url_for('output_file', filename=section.image) }}"
+        alt="Cluster Visualization"
+    >
+
+</div>
+
+{% endif %}
+
+
+{% if data is not none %}
+
+<div class="info-card large-card">
+
+    <h3>
+        Cluster Assignments
+    </h3>
+
+    <p>
+        Each observation receives a cluster label.
+    </p>
+
+    <div class="table-wrapper">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    {% for column in data.columns %}
+
+                    <th>
+                        {{ column }}
+                    </th>
+
+                    {% endfor %}
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                {% for row in data.head(10).itertuples(index=False) %}
+
+                <tr>
+
+                    {% for value in row %}
+
+                    <td>
+                        {{ value }}
+                    </td>
+
+                    {% endfor %}
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+{% endif %}
+
+
+<!-- ========================================================= -->
+<!-- PCA -->
+<!-- ========================================================= -->
+
+{% elif section.type == "pca" %}
+
+<div class="calculation-box">
+
+    <h3>
+        PCA Calculation
+    </h3>
+
+    <p>
+        PCA reduces many numerical features into a smaller number of
+        principal components while preserving as much variation as possible.
+    </p>
+
+    <p>
+        First, the numerical features are standardized.
+    </p>
+
+    <div class="formula-box">
+        z = (x - mean) / standard deviation
+    </div>
+
+    <p>
+        PCA then finds directions called principal components that capture
+        the maximum variance in the data.
+    </p>
+
+    <p>
+        PC1 captures the largest amount of variance and PC2 captures the
+        next largest amount.
+    </p>
+
+    <div class="formula-box">
+        PC1 = w₁x₁ + w₂x₂ + ... + wₙxₙ
+    </div>
+
+    <div class="formula-box">
+        PC2 = v₁x₁ + v₂x₂ + ... + vₙxₙ
+    </div>
+
+</div>
+
+
+{% if pca_info %}
+
+<div class="model-metrics">
+
+    <div class="metric-card">
+
+        <span>
+            Components
+        </span>
+
+        <strong>
+            2
+        </strong>
+
+        <small>
+            PC1 and PC2
+        </small>
+
+    </div>
+
+
+    <div class="metric-card">
+
+        <span>
+            Input Rows
+        </span>
+
+        <strong>
+            {{ pca_info.rows }}
+        </strong>
+
+        <small>
+            Transformed observations
+        </small>
+
+    </div>
+
+</div>
+
+{% endif %}
+
+
+{% if data is not none %}
+
+<div class="info-card large-card">
+
+    <h3>
+        PCA Transformed Data
+    </h3>
+
+    <p>
+        The original numerical features are represented using PC1 and PC2.
+    </p>
+
+    <div class="table-wrapper">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    {% for column in data.columns %}
+
+                    <th>
+                        {{ column }}
+                    </th>
+
+                    {% endfor %}
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                {% for row in data.head(10).itertuples(index=False) %}
+
+                <tr>
+
+                    {% for value in row %}
+
+                    <td>
+                        {{ value }}
+                    </td>
+
+                    {% endfor %}
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+{% endif %}
+
+
+<div class="plot-grid">
+
+    <div class="plot-card">
+
+        <h3>
+            PCA Scatter Plot
+        </h3>
+
+        <p class="plot-description">
+            Shows the observations in the two-dimensional PC1 and PC2 space.
+        </p>
+
+        <img
+            src="{{ url_for('output_file', filename='pca_scatter_plot.png') }}"
+            alt="PCA Scatter Plot"
+        >
+
+    </div>
+
+
+    <div class="plot-card">
+
+        <h3>
+            Explained Variance
+        </h3>
+
+        <p class="plot-description">
+            Shows how much variance is captured by the principal components.
+        </p>
+
+        <img
+            src="{{ url_for('output_file', filename='pca_explained_variance.png') }}"
+            alt="PCA Explained Variance"
+        >
+
+    </div>
+
+</div>
+
+
+<!-- ========================================================= -->
+<!-- MODEL COMPARISON -->
+<!-- ========================================================= -->
+
+{% elif section.type == "comparison" %}
+
+<div class="calculation-box">
+
+    <h3>
+        How Model Comparison Is Calculated
+    </h3>
+
+    <p>
+        Every regression model is evaluated using the same test data.
+    </p>
+
+    <p>
+        For every model, the prediction error is first calculated.
+    </p>
+
+    <div class="formula-box">
+        Error = Actual Glucose − Predicted Glucose
+    </div>
+
+    <p>
+        Then MAE, MSE, RMSE and R² are calculated.
+    </p>
+
+    <p>
+        These metrics provide a common way to examine the prediction
+        results of the regression models.
+    </p>
+
+</div>
+
+
+<div class="info-card large-card">
+
+    <h3>
+        Regression Model Performance
+    </h3>
+
+
+    {% if comparison %}
+
+    <div class="table-wrapper">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Model
+                    </th>
+
+                    <th>
+                        MAE
+                    </th>
+
+                    <th>
+                        MSE
+                    </th>
+
+                    <th>
+                        RMSE
+                    </th>
+
+                    <th>
+                        R²
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                {% for model in comparison %}
+
+                <tr>
+
+                    <td>
+                        {{ model.model }}
+                    </td>
+
+                    <td>
+                        {{ model.mae }}
+                    </td>
+
+                    <td>
+                        {{ model.mse }}
+                    </td>
+
+                    <td>
+                        {{ model.rmse }}
+                    </td>
+
+                    <td>
+                        {{ model.r2 }}
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+    {% else %}
+
+    <div class="empty-card">
+
+        <p>
+            Run the regression models to generate comparison results.
+        </p>
+
+    </div>
+
+    {% endif %}
+
+</div>
+
+
+{% endif %}
+
+{% endblock %}
