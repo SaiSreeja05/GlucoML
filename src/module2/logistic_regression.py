@@ -372,7 +372,7 @@ results.to_csv(
 # ============================================================
 
 print("\n========================================")
-print("LOGISTIC REGRESSION COMPLETED")
+print(" ======== LOGISTIC REGRESSION COMPLETED ======")
 print("========================================")
 
 print(
