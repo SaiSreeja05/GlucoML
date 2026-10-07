@@ -10,6 +10,11 @@
 
 {% block content %}
 
+
+<!-- ========================================================= -->
+<!-- PAGE INTRO -->
+<!-- ========================================================= -->
+
 <div class="page-intro">
 
     <div>
@@ -28,9 +33,12 @@
 
     </div>
 
+
     <a href="{{ url_for('home') }}"
        class="secondary-button">
+
         ← Dashboard
+
     </a>
 
 </div>
@@ -42,6 +50,7 @@
 
 {% if section.type == "eda" %}
 
+
 <div class="section-heading">
 
     <h2>
@@ -49,9 +58,8 @@
     </h2>
 
     <p>
-        Eight selected plots are used to understand the glucose data,
-        distributions, outliers, missing values, correlations and
-        relationships between important features and glucose.
+        Explore glucose distributions, missing values, correlations,
+        outliers and relationships between important features and glucose.
     </p>
 
 </div>
@@ -59,7 +67,8 @@
 
 <div class="plot-grid">
 
-    <!-- 1 -->
+
+    <!-- 1. Glucose Distribution -->
 
     <div class="plot-card">
 
@@ -79,7 +88,7 @@
     </div>
 
 
-    <!-- 2 -->
+    <!-- 2. Glucose Boxplot -->
 
     <div class="plot-card">
 
@@ -99,7 +108,7 @@
     </div>
 
 
-    <!-- 3 -->
+    <!-- 3. Missing Values -->
 
     <div class="plot-card">
 
@@ -120,7 +129,7 @@
     </div>
 
 
-    <!-- 4 -->
+    <!-- 4. Correlation Heatmap -->
 
     <div class="plot-card">
 
@@ -141,7 +150,7 @@
     </div>
 
 
-    <!-- 5 -->
+    <!-- 5. Carbs vs Glucose -->
 
     <div class="plot-card">
 
@@ -161,7 +170,7 @@
     </div>
 
 
-    <!-- 6 -->
+    <!-- 6. Insulin Bolus vs Glucose -->
 
     <div class="plot-card">
 
@@ -181,7 +190,7 @@
     </div>
 
 
-    <!-- 7 -->
+    <!-- 7. Exercise Steps vs Glucose -->
 
     <div class="plot-card">
 
@@ -201,7 +210,7 @@
     </div>
 
 
-    <!-- 8 -->
+    <!-- 8. Stress Level vs Glucose -->
 
     <div class="plot-card">
 
@@ -220,6 +229,7 @@
 
     </div>
 
+
 </div>
 
 
@@ -229,7 +239,11 @@
 
 {% elif section.type == "preprocessing" %}
 
+
 <div class="info-grid">
+
+
+    <!-- Preprocessed Data -->
 
     <div class="info-card">
 
@@ -250,6 +264,8 @@
 
     </div>
 
+
+    <!-- Standard Scaling -->
 
     <div class="info-card">
 
@@ -276,6 +292,8 @@
     </div>
 
 
+    <!-- Min-Max Scaling -->
+
     <div class="info-card">
 
         <h3>
@@ -300,6 +318,8 @@
     </div>
 
 
+    <!-- Robust Scaling -->
+
     <div class="info-card">
 
         <h3>
@@ -323,14 +343,16 @@
 
     </div>
 
+
 </div>
 
 
 <!-- ========================================================= -->
-<!-- ONE HOT ENCODING -->
+<!-- ONE-HOT ENCODING -->
 <!-- ========================================================= -->
 
 {% elif section.type == "one-hot" %}
+
 
 <div class="info-card large-card">
 
@@ -342,6 +364,7 @@
         Each categorical value is converted into a separate binary column.
         A selected category receives 1 and the other categories receive 0.
     </p>
+
 
     <div class="formula-box">
         Category = Breakfast → meal_type_breakfast = 1
@@ -368,6 +391,7 @@
 
     {% if data is not none %}
 
+
     <div class="calculation-box">
 
         <h3>
@@ -376,12 +400,16 @@
 
         <p>
             Rows:
-            <strong>{{ data|length }}</strong>
+            <strong>
+                {{ data|length }}
+            </strong>
         </p>
 
         <p>
             Columns after encoding:
-            <strong>{{ data.shape[1] }}</strong>
+            <strong>
+                {{ data.shape[1] }}
+            </strong>
         </p>
 
         <p>
@@ -437,6 +465,7 @@
 
     </div>
 
+
     {% endif %}
 
 </div>
@@ -448,12 +477,15 @@
 
 {% elif section.type == "model" %}
 
+
 <div class="calculation-box">
 
     <h3>
         How {{ section.title }} Calculates Glucose
     </h3>
 
+
+    <!-- LINEAR REGRESSION -->
 
     {% if section_name == "linear" %}
 
@@ -471,6 +503,8 @@
         and adds them together with the intercept.
     </p>
 
+
+    <!-- RIDGE -->
 
     {% elif section_name == "ridge" %}
 
@@ -492,6 +526,8 @@
     </p>
 
 
+    <!-- LASSO -->
+
     {% elif section_name == "lasso" %}
 
     <p>
@@ -508,17 +544,7 @@
     </p>
 
 
-    {% elif section_name == "adaboost" %}
-
-    <p>
-        AdaBoost combines several weak regression trees. Later trees focus
-        more on observations that were predicted poorly.
-    </p>
-
-    <div class="formula-box">
-        Final Prediction = Weighted Combination of Weak Learners
-    </div>
-
+    <!-- GRADIENT BOOSTING -->
 
     {% elif section_name == "gradient-boosting" %}
 
@@ -533,6 +559,8 @@
     </div>
 
 
+    <!-- XGBOOST -->
+
     {% elif section_name == "xgboost" %}
 
     <p>
@@ -544,6 +572,8 @@
         Objective = Loss + Regularization
     </div>
 
+
+    <!-- LIGHTGBM -->
 
     {% elif section_name == "lightgbm" %}
 
@@ -562,7 +592,12 @@
 </div>
 
 
+<!-- ========================================================= -->
+<!-- MODEL METRICS -->
+<!-- ========================================================= -->
+
 {% if metrics %}
+
 
 <div class="section-heading">
 
@@ -579,6 +614,7 @@
 
 
 <div class="model-metrics">
+
 
     <div class="metric-card">
 
@@ -647,6 +683,7 @@
 
     </div>
 
+
 </div>
 
 
@@ -710,7 +747,12 @@
 {% endif %}
 
 
+<!-- ========================================================= -->
+<!-- SAMPLE REGRESSION PREDICTION -->
+<!-- ========================================================= -->
+
 {% if data is not none %}
+
 
 <div class="info-card large-card">
 
@@ -718,43 +760,80 @@
         Sample Prediction Calculation
     </h3>
 
+
     {% set first_row = data.iloc[0] %}
+
 
     <div class="example-calculation">
 
         <p>
+
             Actual Glucose =
+
             <strong>
                 {{ "%.4f"|format(first_row["Actual Glucose"]) }}
             </strong>
+
         </p>
 
+
         <p>
+
             Predicted Glucose =
+
             <strong>
                 {{ "%.4f"|format(first_row["Predicted Glucose"]) }}
             </strong>
+
         </p>
 
+
         <p>
+
             Error =
+
             <strong>
-                {{ "%.4f"|format(first_row["Actual Glucose"] - first_row["Predicted Glucose"]) }}
+                {{ "%.4f"|format(
+                    first_row["Actual Glucose"]
+                    -
+                    first_row["Predicted Glucose"]
+                ) }}
             </strong>
+
         </p>
 
+
         <p>
+
             Absolute Error =
+
             <strong>
-                {{ "%.4f"|format((first_row["Actual Glucose"] - first_row["Predicted Glucose"])|abs) }}
+                {{ "%.4f"|format(
+                    (
+                        first_row["Actual Glucose"]
+                        -
+                        first_row["Predicted Glucose"]
+                    )|abs
+                ) }}
             </strong>
+
         </p>
 
+
         <p>
+
             Squared Error =
+
             <strong>
-                {{ "%.4f"|format((first_row["Actual Glucose"] - first_row["Predicted Glucose"]) ** 2) }}
+                {{ "%.4f"|format(
+                    (
+                        first_row["Actual Glucose"]
+                        -
+                        first_row["Predicted Glucose"]
+                    ) ** 2
+                ) }}
             </strong>
+
         </p>
 
     </div>
@@ -767,6 +846,7 @@
     <h3>
         Sample Prediction Data
     </h3>
+
 
     <div class="table-wrapper">
 
@@ -787,6 +867,7 @@
                 </tr>
 
             </thead>
+
 
             <tbody>
 
@@ -814,6 +895,7 @@
 
 </div>
 
+
 {% endif %}
 
 
@@ -823,9 +905,12 @@
 
 {% elif section.type == "tree" %}
 
+
 {% if metrics %}
 
+
 <div class="model-metrics">
+
 
     <div class="metric-card">
 
@@ -894,14 +979,18 @@
 
     </div>
 
+
 </div>
+
 
 {% endif %}
 
 
 <div class="calculation-box">
 
+
     {% if section_name == "decision-tree" %}
+
 
     <h3>
         Decision Tree Calculation
@@ -921,7 +1010,9 @@
         The value stored in that leaf becomes the prediction.
     </p>
 
+
     {% else %}
+
 
     <h3>
         Random Forest Calculation
@@ -941,14 +1032,19 @@
         The visualization below shows Tree 1 from the Random Forest.
     </p>
 
+
     {% endif %}
 
 </div>
 
 
+<!-- TREE VISUALIZATION -->
+
 {% if section.tree_image %}
 
+
 <div class="plot-card tree-card">
+
 
     <h3>
 
@@ -982,12 +1078,17 @@
 
     </div>
 
+
 </div>
+
 
 {% endif %}
 
 
+<!-- TREE SAMPLE PREDICTION -->
+
 {% if data is not none %}
+
 
 <div class="info-card large-card">
 
@@ -995,34 +1096,52 @@
         Sample Prediction Calculation
     </h3>
 
+
     {% set first_row = data.iloc[0] %}
+
 
     <div class="example-calculation">
 
         <p>
+
             Actual Glucose =
+
             <strong>
                 {{ "%.4f"|format(first_row["Actual Glucose"]) }}
             </strong>
+
         </p>
 
+
         <p>
+
             Predicted Glucose =
+
             <strong>
                 {{ "%.4f"|format(first_row["Predicted Glucose"]) }}
             </strong>
+
         </p>
 
+
         <p>
+
             Error =
+
             <strong>
-                {{ "%.4f"|format(first_row["Actual Glucose"] - first_row["Predicted Glucose"]) }}
+                {{ "%.4f"|format(
+                    first_row["Actual Glucose"]
+                    -
+                    first_row["Predicted Glucose"]
+                ) }}
             </strong>
+
         </p>
 
     </div>
 
 </div>
+
 
 {% endif %}
 
@@ -1033,9 +1152,12 @@
 
 {% elif section.type == "classification" %}
 
+
 {% if logistic_metrics %}
 
+
 <div class="model-metrics">
+
 
     <div class="metric-card">
 
@@ -1104,6 +1226,7 @@
 
     </div>
 
+
 </div>
 
 
@@ -1147,22 +1270,30 @@
 
     <p>
         True Positive (TP) =
-        <strong>{{ logistic_metrics.tp }}</strong>
+        <strong>
+            {{ logistic_metrics.tp }}
+        </strong>
     </p>
 
     <p>
         True Negative (TN) =
-        <strong>{{ logistic_metrics.tn }}</strong>
+        <strong>
+            {{ logistic_metrics.tn }}
+        </strong>
     </p>
 
     <p>
         False Positive (FP) =
-        <strong>{{ logistic_metrics.fp }}</strong>
+        <strong>
+            {{ logistic_metrics.fp }}
+        </strong>
     </p>
 
     <p>
         False Negative (FN) =
-        <strong>{{ logistic_metrics.fn }}</strong>
+        <strong>
+            {{ logistic_metrics.fn }}
+        </strong>
     </p>
 
 
@@ -1197,10 +1328,12 @@
 
 </div>
 
+
 {% endif %}
 
 
 {% if data is not none %}
+
 
 <div class="info-card large-card">
 
@@ -1208,239 +1341,6 @@
         Sample Classification Results
     </h3>
 
-    <div class="table-wrapper">
-
-        <table>
-
-            <thead>
-
-                <tr>
-
-                    {% for column in data.columns %}
-
-                    <th>
-                        {{ column }}
-                    </th>
-
-                    {% endfor %}
-
-                </tr>
-
-            </thead>
-
-
-            <tbody>
-
-                {% for row in data.head(10).itertuples(index=False) %}
-
-                <tr>
-
-                    {% for value in row %}
-
-                    <td>
-                        {{ value }}
-                    </td>
-
-                    {% endfor %}
-
-                </tr>
-
-                {% endfor %}
-
-            </tbody>
-
-        </table>
-
-    </div>
-
-</div>
-
-{% endif %}
-
-
-<!-- ========================================================= -->
-<!-- K-MEANS / DBSCAN -->
-<!-- ========================================================= -->
-
-{% elif section.type == "clustering" %}
-
-{% if cluster_info %}
-
-<div class="model-metrics">
-
-    <div class="metric-card">
-
-        <span>
-            Total Points
-        </span>
-
-        <strong>
-            {{ cluster_info.total_points }}
-        </strong>
-
-        <small>
-            Dataset observations
-        </small>
-
-    </div>
-
-
-    <div class="metric-card">
-
-        <span>
-            Clusters
-        </span>
-
-        <strong>
-            {{ cluster_info.clusters }}
-        </strong>
-
-        <small>
-            Groups discovered
-        </small>
-
-    </div>
-
-
-    <div class="metric-card">
-
-        <span>
-            Noise Points
-        </span>
-
-        <strong>
-            {{ cluster_info.noise_points }}
-        </strong>
-
-        <small>
-            DBSCAN noise
-        </small>
-
-    </div>
-
-
-    <div class="metric-card">
-
-        <span>
-            Cluster Labels
-        </span>
-
-        <strong>
-            {{ cluster_info.cluster_labels|join(", ") }}
-        </strong>
-
-        <small>
-            Detected groups
-        </small>
-
-    </div>
-
-</div>
-
-{% endif %}
-
-
-<div class="calculation-box">
-
-    {% if section_name == "kmeans" %}
-
-    <h3>
-        K-Means Calculation
-    </h3>
-
-    <p>
-        K-Means starts with a selected number of cluster centers called
-        centroids.
-    </p>
-
-    <div class="formula-box">
-        Distance = √Σ(xᵢ − cᵢ)²
-    </div>
-
-    <p>
-        Each data point is assigned to the nearest centroid.
-    </p>
-
-    <div class="formula-box">
-        New Centroid =
-        Sum of Points / Number of Points
-    </div>
-
-    <p>
-        The assignment and centroid calculation are repeated until the
-        clusters become stable.
-    </p>
-
-
-    {% else %}
-
-    <h3>
-        DBSCAN Calculation
-    </h3>
-
-    <p>
-        DBSCAN forms clusters based on the density of nearby points.
-        It does not require a fixed number of clusters.
-    </p>
-
-    <div class="formula-box">
-        Distance = √Σ(xᵢ − yᵢ)²
-    </div>
-
-    <p>
-        <strong>eps</strong> specifies the neighborhood radius.
-    </p>
-
-    <p>
-        <strong>min_samples</strong> specifies the minimum number of nearby
-        points needed to form a dense region.
-    </p>
-
-    <p>
-        Points that do not belong to a dense region are marked as
-        <strong>Noise = -1</strong>.
-    </p>
-
-    {% endif %}
-
-</div>
-
-
-{% if section.image %}
-
-<div class="plot-card large-plot">
-
-    <h3>
-        Cluster Visualization
-    </h3>
-
-    <p class="plot-description">
-
-        The plot shows how the observations are grouped into clusters.
-
-    </p>
-
-    <img
-        src="{{ url_for('output_file', filename=section.image) }}"
-        alt="Cluster Visualization"
-    >
-
-</div>
-
-{% endif %}
-
-
-{% if data is not none %}
-
-<div class="info-card large-card">
-
-    <h3>
-        Cluster Assignments
-    </h3>
-
-    <p>
-        Each observation receives a cluster label.
-    </p>
 
     <div class="table-wrapper">
 
@@ -1489,197 +1389,8 @@
 
 </div>
 
-{% endif %}
-
-
-<!-- ========================================================= -->
-<!-- PCA -->
-<!-- ========================================================= -->
-
-{% elif section.type == "pca" %}
-
-<div class="calculation-box">
-
-    <h3>
-        PCA Calculation
-    </h3>
-
-    <p>
-        PCA reduces many numerical features into a smaller number of
-        principal components while preserving as much variation as possible.
-    </p>
-
-    <p>
-        First, the numerical features are standardized.
-    </p>
-
-    <div class="formula-box">
-        z = (x - mean) / standard deviation
-    </div>
-
-    <p>
-        PCA then finds directions called principal components that capture
-        the maximum variance in the data.
-    </p>
-
-    <p>
-        PC1 captures the largest amount of variance and PC2 captures the
-        next largest amount.
-    </p>
-
-    <div class="formula-box">
-        PC1 = w₁x₁ + w₂x₂ + ... + wₙxₙ
-    </div>
-
-    <div class="formula-box">
-        PC2 = v₁x₁ + v₂x₂ + ... + vₙxₙ
-    </div>
-
-</div>
-
-
-{% if pca_info %}
-
-<div class="model-metrics">
-
-    <div class="metric-card">
-
-        <span>
-            Components
-        </span>
-
-        <strong>
-            2
-        </strong>
-
-        <small>
-            PC1 and PC2
-        </small>
-
-    </div>
-
-
-    <div class="metric-card">
-
-        <span>
-            Input Rows
-        </span>
-
-        <strong>
-            {{ pca_info.rows }}
-        </strong>
-
-        <small>
-            Transformed observations
-        </small>
-
-    </div>
-
-</div>
 
 {% endif %}
-
-
-{% if data is not none %}
-
-<div class="info-card large-card">
-
-    <h3>
-        PCA Transformed Data
-    </h3>
-
-    <p>
-        The original numerical features are represented using PC1 and PC2.
-    </p>
-
-    <div class="table-wrapper">
-
-        <table>
-
-            <thead>
-
-                <tr>
-
-                    {% for column in data.columns %}
-
-                    <th>
-                        {{ column }}
-                    </th>
-
-                    {% endfor %}
-
-                </tr>
-
-            </thead>
-
-
-            <tbody>
-
-                {% for row in data.head(10).itertuples(index=False) %}
-
-                <tr>
-
-                    {% for value in row %}
-
-                    <td>
-                        {{ value }}
-                    </td>
-
-                    {% endfor %}
-
-                </tr>
-
-                {% endfor %}
-
-            </tbody>
-
-        </table>
-
-    </div>
-
-</div>
-
-{% endif %}
-
-
-<div class="plot-grid">
-
-    <div class="plot-card">
-
-        <h3>
-            PCA Scatter Plot
-        </h3>
-
-        <p class="plot-description">
-            Shows the observations in the two-dimensional PC1 and PC2 space.
-        </p>
-
-        <img
-            src="{{ url_for('output_file', filename='pca_scatter_plot.png') }}"
-            alt="PCA Scatter Plot"
-        >
-
-    </div>
-
-
-    <div class="plot-card">
-
-        <h3>
-            Explained Variance
-        </h3>
-
-        <p class="plot-description">
-            Shows how much variance is captured by the principal components.
-        </p>
-
-        <img
-            src="{{ url_for('output_file', filename='pca_explained_variance.png') }}"
-            alt="PCA Explained Variance"
-        >
-
-    </div>
-
-</div>
 
 
 <!-- ========================================================= -->
@@ -1687,6 +1398,7 @@
 <!-- ========================================================= -->
 
 {% elif section.type == "comparison" %}
+
 
 <div class="calculation-box">
 
@@ -1726,6 +1438,7 @@
 
 
     {% if comparison %}
+
 
     <div class="table-wrapper">
 
@@ -1799,6 +1512,7 @@
 
     {% else %}
 
+
     <div class="empty-card">
 
         <p>
@@ -1806,6 +1520,7 @@
         </p>
 
     </div>
+
 
     {% endif %}
 

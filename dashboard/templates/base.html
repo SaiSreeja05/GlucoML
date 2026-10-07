@@ -18,23 +18,39 @@
 
         <div class="logo">
             <div class="logo-icon">G</div>
+
             <div>
                 <h2>GlucoBench</h2>
                 <span>ML Dashboard</span>
             </div>
         </div>
 
+
         <nav>
+
+            <!-- ================================================= -->
+            <!-- DASHBOARD -->
+            <!-- ================================================= -->
 
             <a href="{{ url_for('home') }}" class="nav-item">
                 🏠 Dashboard
             </a>
+
+
+            <!-- ================================================= -->
+            <!-- MODULE 1 -->
+            <!-- ================================================= -->
 
             <div class="nav-title">MODULE 1</div>
 
             <a href="{{ url_for('session', section='eda') }}" class="nav-item">
                 📊 EDA
             </a>
+
+
+            <!-- ================================================= -->
+            <!-- MODULE 2 -->
+            <!-- ================================================= -->
 
             <div class="nav-title">MODULE 2</div>
 
@@ -58,9 +74,10 @@
                 📉 Lasso Regression
             </a>
 
-            <a href="{{ url_for('session', section='logistic') }}" class="nav-item">
-                🎯 Logistic Regression
-            </a>
+
+            <!-- ================================================= -->
+            <!-- MODULE 3 -->
+            <!-- ================================================= -->
 
             <div class="nav-title">MODULE 3</div>
 
@@ -70,10 +87,6 @@
 
             <a href="{{ url_for('session', section='random-forest') }}" class="nav-item">
                 🌲 Random Forest
-            </a>
-
-            <a href="{{ url_for('session', section='adaboost') }}" class="nav-item">
-                🚀 AdaBoost
             </a>
 
             <a href="{{ url_for('session', section='gradient-boosting') }}" class="nav-item">
@@ -88,25 +101,12 @@
                 💡 LightGBM
             </a>
 
-            <div class="nav-title">MODULE 4</div>
-
-            <a href="{{ url_for('session', section='kmeans') }}" class="nav-item">
-                🔵 K-Means
-            </a>
-
-            <a href="{{ url_for('session', section='dbscan') }}" class="nav-item">
-                🟣 DBSCAN
-            </a>
-
-            <a href="{{ url_for('session', section='pca') }}" class="nav-item">
-                📐 PCA
-            </a>
-
             <a href="{{ url_for('session', section='comparison') }}" class="nav-item">
                 🏆 Model Comparison
             </a>
 
         </nav>
+
 
         <div class="sidebar-footer">
             <span>Machine Learning Project</span>
@@ -115,14 +115,28 @@
     </aside>
 
 
+    <!-- ===================================================== -->
+    <!-- MAIN CONTENT -->
+    <!-- ===================================================== -->
+
     <main class="main-content">
 
         <header class="topbar">
 
             <div>
-                <h1>{% block header %}GlucoBench ML Dashboard{% endblock %}</h1>
-                <p>Machine Learning Analysis Platform</p>
+
+                <h1>
+                    {% block header %}
+                    GlucoBench ML Dashboard
+                    {% endblock %}
+                </h1>
+
+                <p>
+                    Machine Learning Analysis Platform
+                </p>
+
             </div>
+
 
             <div class="dataset-badge">
                 Dataset: GlucoBench
@@ -130,6 +144,10 @@
 
         </header>
 
+
+        <!-- ================================================= -->
+        <!-- PAGE CONTENT -->
+        <!-- ================================================= -->
 
         <section class="content">
 

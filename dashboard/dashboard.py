@@ -16,12 +16,15 @@ from sklearn.metrics import (
 app = Flask(__name__)
 
 
+# =========================================================
+# PATHS
+# =========================================================
+
 BASE_DIR = os.path.dirname(
     os.path.dirname(
         os.path.abspath(__file__)
     )
 )
-
 
 DATA_PATH = os.path.join(
     BASE_DIR,
@@ -29,12 +32,10 @@ DATA_PATH = os.path.join(
     "GlucoBench_benchmark_dataset.csv"
 )
 
-
 OUTPUT_DIR = os.path.join(
     BASE_DIR,
     "Output"
 )
-
 
 PLOTS_DIR = os.path.join(
     OUTPUT_DIR,
@@ -42,12 +43,11 @@ PLOTS_DIR = os.path.join(
 )
 
 
-# ---------------------------------------------------------
+# =========================================================
 # DATA LOADING
-# ---------------------------------------------------------
+# =========================================================
 
 def load_dataset():
-
     return pd.read_csv(DATA_PATH)
 
 
@@ -59,15 +59,14 @@ def load_csv(filename):
     )
 
     if os.path.exists(path):
-
         return pd.read_csv(path)
 
     return None
 
 
-# ---------------------------------------------------------
+# =========================================================
 # BASIC DATASET INFORMATION
-# ---------------------------------------------------------
+# =========================================================
 
 def get_basic_info():
 
@@ -129,14 +128,13 @@ def get_basic_info():
     }
 
 
-# ---------------------------------------------------------
+# =========================================================
 # REGRESSION METRICS
-# ---------------------------------------------------------
+# =========================================================
 
 def calculate_metrics(data):
 
     if data is None:
-
         return None
 
     if (
@@ -144,54 +142,39 @@ def calculate_metrics(data):
         or
         "Predicted Glucose" not in data.columns
     ):
-
         return None
-
 
     actual = pd.to_numeric(
         data["Actual Glucose"],
         errors="coerce"
     )
 
-
     predicted = pd.to_numeric(
         data["Predicted Glucose"],
         errors="coerce"
     )
-
 
     valid = pd.DataFrame({
         "actual": actual,
         "predicted": predicted
     }).dropna()
 
-
     actual = valid["actual"]
     predicted = valid["predicted"]
 
-
     n = len(actual)
 
-
     if n == 0:
-
         return None
-
 
     error = actual - predicted
 
-
     absolute_error = error.abs()
-
     squared_error = error ** 2
 
-
     mae = absolute_error.mean()
-
     mse = squared_error.mean()
-
     rmse = math.sqrt(mse)
-
 
     ss_res = squared_error.sum()
 
@@ -199,28 +182,17 @@ def calculate_metrics(data):
         (actual - actual.mean()) ** 2
     ).sum()
 
-
     if ss_tot != 0:
-
         r2 = 1 - (
             ss_res / ss_tot
         )
-
     else:
-
         r2 = 0
 
-
     first_actual = float(actual.iloc[0])
-
     first_predicted = float(predicted.iloc[0])
 
     first_error = first_actual - first_predicted
-
-    first_absolute_error = abs(first_error)
-
-    first_squared_error = first_error ** 2
-
 
     return {
 
@@ -234,19 +206,28 @@ def calculate_metrics(data):
 
         "n": n,
 
-        "first_actual": round(first_actual, 4),
+        "first_actual": round(
+            first_actual,
+            4
+        ),
 
-        "first_predicted": round(first_predicted, 4),
+        "first_predicted": round(
+            first_predicted,
+            4
+        ),
 
-        "first_error": round(first_error, 4),
+        "first_error": round(
+            first_error,
+            4
+        ),
 
         "first_absolute_error": round(
-            first_absolute_error,
+            abs(first_error),
             4
         ),
 
         "first_squared_error": round(
-            first_squared_error,
+            first_error ** 2,
             4
         ),
 
@@ -264,40 +245,32 @@ def calculate_metrics(data):
             float(ss_tot),
             4
         )
-
     }
 
 
-# ---------------------------------------------------------
+# =========================================================
 # LOGISTIC REGRESSION METRICS
-# ---------------------------------------------------------
+# =========================================================
 
 def calculate_logistic_metrics(data):
 
     if data is None:
-
         return None
-
 
     if (
         "Actual Class" not in data.columns
         or
         "Predicted Class" not in data.columns
     ):
-
         return None
 
-
     actual = data["Actual Class"]
-
     predicted = data["Predicted Class"]
-
 
     accuracy = accuracy_score(
         actual,
         predicted
     )
-
 
     precision = precision_score(
         actual,
@@ -305,13 +278,11 @@ def calculate_logistic_metrics(data):
         zero_division=0
     )
 
-
     recall = recall_score(
         actual,
         predicted,
         zero_division=0
     )
-
 
     f1 = f1_score(
         actual,
@@ -319,21 +290,16 @@ def calculate_logistic_metrics(data):
         zero_division=0
     )
 
-
     cm = confusion_matrix(
         actual,
         predicted
     )
 
-
     if cm.shape == (2, 2):
 
         tn = int(cm[0][0])
-
         fp = int(cm[0][1])
-
         fn = int(cm[1][0])
-
         tp = int(cm[1][1])
 
     else:
@@ -343,212 +309,45 @@ def calculate_logistic_metrics(data):
         fn = 0
         tp = 0
 
-
     total = tn + fp + fn + tp
 
-
     return {
 
-        "accuracy": round(accuracy, 4),
+        "accuracy": round(
+            accuracy,
+            4
+        ),
 
-        "precision": round(precision, 4),
+        "precision": round(
+            precision,
+            4
+        ),
 
-        "recall": round(recall, 4),
+        "recall": round(
+            recall,
+            4
+        ),
 
-        "f1": round(f1, 4),
+        "f1": round(
+            f1,
+            4
+        ),
 
         "tn": tn,
-
         "fp": fp,
-
         "fn": fn,
-
         "tp": tp,
-
         "total": total
-
     }
 
 
-# ---------------------------------------------------------
-# CLUSTERING INFORMATION
-# ---------------------------------------------------------
-
-def calculate_cluster_info(data):
-
-    if data is None:
-
-        return None
-
-
-    if "cluster" not in data.columns:
-
-        return None
-
-
-    cluster_values = data["cluster"]
-
-
-    total_points = len(data)
-
-
-    noise_points = int(
-        (cluster_values == -1).sum()
-    )
-
-
-    normal_clusters = sorted(
-        [
-            int(x)
-            for x in cluster_values.unique()
-            if x != -1
-        ]
-    )
-
-
-    cluster_sizes = []
-
-
-    for cluster_number in normal_clusters:
-
-        count = int(
-            (cluster_values == cluster_number).sum()
-        )
-
-        cluster_sizes.append({
-
-            "cluster": cluster_number,
-
-            "count": count
-
-        })
-
-
-    return {
-
-        "total_points": total_points,
-
-        "clusters": len(normal_clusters),
-
-        "noise_points": noise_points,
-
-        "cluster_labels": normal_clusters,
-
-        "cluster_sizes": cluster_sizes
-
-    }
-
-
-# ---------------------------------------------------------
-# PCA INFORMATION
-# ---------------------------------------------------------
-
-def calculate_pca_info():
-
-    components_path = os.path.join(
-        OUTPUT_DIR,
-        "pca_components.csv"
-    )
-
-
-    transformed_path = os.path.join(
-        OUTPUT_DIR,
-        "pca_transformed_data.csv"
-    )
-
-
-    pca_info = {
-
-        "components": [],
-
-        "component_rows": 0,
-
-        "transformed_rows": 0,
-
-        "transformed_columns": [],
-
-        "pc1_variance": None,
-
-        "pc2_variance": None,
-
-        "total_variance": None
-
-    }
-
-
-    if os.path.exists(components_path):
-
-        components = pd.read_csv(
-            components_path
-        )
-
-
-        pca_info["components"] = list(
-            components.columns
-        )
-
-
-        pca_info["component_rows"] = len(
-            components
-        )
-
-
-        numeric_component_columns = components.select_dtypes(
-            include=["int64", "float64"]
-        ).columns.tolist()
-
-
-        if len(numeric_component_columns) >= 2:
-
-            pc1_values = components[
-                numeric_component_columns[0]
-            ].abs()
-
-            pc2_values = components[
-                numeric_component_columns[1]
-            ].abs()
-
-
-            pca_info["pc1_variance"] = round(
-                pc1_values.mean(),
-                4
-            )
-
-
-            pca_info["pc2_variance"] = round(
-                pc2_values.mean(),
-                4
-            )
-
-
-    if os.path.exists(transformed_path):
-
-        transformed = pd.read_csv(
-            transformed_path
-        )
-
-
-        pca_info["transformed_rows"] = len(
-            transformed
-        )
-
-
-        pca_info["transformed_columns"] = list(
-            transformed.columns
-        )
-
-
-    return pca_info
-
-
-# ---------------------------------------------------------
+# =========================================================
 # EDA INFORMATION
-# ---------------------------------------------------------
+# =========================================================
 
 def get_eda_info():
 
     df = load_dataset()
-
 
     info = {
 
@@ -569,14 +368,11 @@ def get_eda_info():
         "numeric_summary": [],
 
         "categorical_summary": []
-
     }
-
 
     # Missing values
 
     missing = df.isnull().sum()
-
 
     for column, count in missing.items():
 
@@ -587,9 +383,7 @@ def get_eda_info():
                 "column": column,
 
                 "count": int(count)
-
             })
-
 
     # Numeric summary
 
@@ -597,40 +391,48 @@ def get_eda_info():
         include=["int64", "float64"]
     ).columns
 
-
     for column in numeric_columns:
 
         series = df[column].dropna()
 
-
         if len(series) == 0:
-
             continue
-
 
         info["numeric_summary"].append({
 
             "column": column,
 
-            "mean": round(series.mean(), 4),
+            "mean": round(
+                series.mean(),
+                4
+            ),
 
-            "median": round(series.median(), 4),
+            "median": round(
+                series.median(),
+                4
+            ),
 
-            "min": round(series.min(), 4),
+            "min": round(
+                series.min(),
+                4
+            ),
 
-            "max": round(series.max(), 4),
+            "max": round(
+                series.max(),
+                4
+            ),
 
-            "std": round(series.std(), 4)
-
+            "std": round(
+                series.std(),
+                4
+            )
         })
-
 
     # Categorical summary
 
     categorical_columns = df.select_dtypes(
         include=["object", "string"]
     ).columns
-
 
     for column in categorical_columns:
 
@@ -639,18 +441,18 @@ def get_eda_info():
             "column": column,
 
             "unique": int(
-                df[column].nunique(dropna=True)
+                df[column].nunique(
+                    dropna=True
+                )
             )
-
         })
-
 
     return info
 
 
-# ---------------------------------------------------------
-# CHECK IMAGE
-# ---------------------------------------------------------
+# =========================================================
+# FILE CHECKS
+# =========================================================
 
 def plot_exists(filename):
 
@@ -672,15 +474,14 @@ def output_exists(filename):
     return os.path.exists(path)
 
 
-# ---------------------------------------------------------
+# =========================================================
 # HOME
-# ---------------------------------------------------------
+# =========================================================
 
 @app.route("/")
 def home():
 
     info = get_basic_info()
-
 
     return render_template(
         "home.html",
@@ -688,369 +489,291 @@ def home():
     )
 
 
-# ---------------------------------------------------------
+# =========================================================
 # SESSION
-# ---------------------------------------------------------
+# =========================================================
 
 @app.route("/session/<section>")
 def session(section):
 
     info = get_basic_info()
 
-
     sections = {
 
-        # -------------------------------------------------
+        # =================================================
         # EDA
-        # -------------------------------------------------
+        # =================================================
 
         "eda": {
 
-            "title": "Exploratory Data Analysis",
+            "title":
+                "Exploratory Data Analysis",
 
             "description":
                 "Explore dataset structure, distributions, missing values and relationships.",
 
-            "type": "eda"
-
+            "type":
+                "eda"
         },
 
 
-        # -------------------------------------------------
+        # =================================================
         # PREPROCESSING
-        # -------------------------------------------------
+        # =================================================
 
         "preprocessing": {
 
-            "title": "Data Preprocessing",
+            "title":
+                "Data Preprocessing",
 
             "description":
                 "Missing-value handling and feature scaling.",
 
-            "type": "preprocessing"
-
+            "type":
+                "preprocessing"
         },
 
 
-        # -------------------------------------------------
+        # =================================================
         # ONE HOT
-        # -------------------------------------------------
+        # =================================================
 
         "one-hot": {
 
-            "title": "One-Hot Encoding",
+            "title":
+                "One-Hot Encoding",
 
             "description":
                 "Categorical features converted into numerical binary columns.",
 
-            "type": "one-hot",
+            "type":
+                "one-hot",
 
             "file":
                 "one_hot_encoded_data.csv"
-
         },
 
 
-        # -------------------------------------------------
-        # LINEAR
-        # -------------------------------------------------
+        # =================================================
+        # LINEAR REGRESSION
+        # =================================================
 
         "linear": {
 
-            "title": "Linear Regression",
+            "title":
+                "Linear Regression",
 
             "description":
                 "Linear Regression glucose prediction and mathematical evaluation.",
 
-            "type": "model",
+            "type":
+                "model",
 
             "file":
-                "linear_regression_predictions.csv",
-
-            "formula":
-                "MAE = Σ|Actual − Predicted| / N"
-
+                "linear_regression_predictions.csv"
         },
 
 
-        # -------------------------------------------------
+        # =================================================
         # RIDGE
-        # -------------------------------------------------
+        # =================================================
 
         "ridge": {
 
-            "title": "Ridge Regression",
+            "title":
+                "Ridge Regression",
 
             "description":
                 "Ridge Regression glucose prediction with L2 regularization.",
 
-            "type": "model",
+            "type":
+                "model",
 
             "file":
-                "ridge_regression_predictions.csv",
-
-            "formula":
-                "Ridge minimizes SSE + α × Σ(coefficient²)"
-
+                "ridge_regression_predictions.csv"
         },
 
 
-        # -------------------------------------------------
+        # =================================================
         # LASSO
-        # -------------------------------------------------
+        # =================================================
 
         "lasso": {
 
-            "title": "Lasso Regression",
+            "title":
+                "Lasso Regression",
 
             "description":
                 "Lasso Regression glucose prediction with L1 regularization.",
 
-            "type": "model",
+            "type":
+                "model",
 
             "file":
-                "lasso_regression_predictions.csv",
-
-            "formula":
-                "Lasso minimizes SSE + α × Σ|coefficient|"
-
+                "lasso_regression_predictions.csv"
         },
 
 
-        # -------------------------------------------------
+        # =================================================
         # LOGISTIC
-        # -------------------------------------------------
+        # =================================================
 
         "logistic": {
 
-            "title": "Logistic Regression",
+            "title":
+                "Logistic Regression",
 
             "description":
                 "Binary classification and evaluation calculations.",
 
-            "type": "classification",
+            "type":
+                "classification",
 
             "file":
                 "logistic_regression_predictions.csv"
-
         },
 
 
-        # -------------------------------------------------
+        # =================================================
         # DECISION TREE
-        # -------------------------------------------------
+        # =================================================
 
         "decision-tree": {
 
-            "title": "Decision Tree Regression",
+            "title":
+                "Decision Tree Regression",
 
             "description":
-                "Decision Tree glucose prediction, evaluation and tree visualization.",
+                "Decision Tree glucose prediction, evaluation and visualization.",
 
-            "type": "tree",
+            "type":
+                "tree",
 
             "file":
                 "decision_tree_predictions.csv",
 
             "tree_image":
                 "decision_tree_plot.png"
-
         },
 
 
-        # -------------------------------------------------
+        # =================================================
         # RANDOM FOREST
-        # -------------------------------------------------
+        # =================================================
 
         "random-forest": {
 
-            "title": "Random Forest Regression",
+            "title":
+                "Random Forest Regression",
 
             "description":
-                "Random Forest glucose prediction and Tree 1 visualization.",
+                "Random Forest glucose prediction and tree visualization.",
 
-            "type": "tree",
+            "type":
+                "tree",
 
             "file":
                 "random_forest_predictions.csv",
 
             "tree_image":
                 "random_forest_tree.png"
-
         },
 
 
-        # -------------------------------------------------
-        # ADABOOST
-        # -------------------------------------------------
-
-        "adaboost": {
-
-            "title": "AdaBoost",
-
-            "description":
-                "AdaBoost regression prediction and evaluation calculations.",
-
-            "type": "model",
-
-            "file":
-                "adaboost_predictions.csv"
-
-        },
-
-
-        # -------------------------------------------------
+        # =================================================
         # GRADIENT BOOSTING
-        # -------------------------------------------------
+        # =================================================
 
         "gradient-boosting": {
 
-            "title": "Gradient Boosting",
+            "title":
+                "Gradient Boosting",
 
             "description":
-                "Gradient Boosting regression prediction and evaluation calculations.",
+                "Gradient Boosting regression prediction and evaluation.",
 
-            "type": "model",
+            "type":
+                "model",
 
             "file":
                 "gradient_boosting_predictions.csv"
-
         },
 
 
-        # -------------------------------------------------
+        # =================================================
         # XGBOOST
-        # -------------------------------------------------
+        # =================================================
 
         "xgboost": {
 
-            "title": "XGBoost",
+            "title":
+                "XGBoost",
 
             "description":
-                "XGBoost regression prediction and evaluation calculations.",
+                "XGBoost regression prediction and evaluation.",
 
-            "type": "model",
+            "type":
+                "model",
 
             "file":
                 "xgboost_predictions.csv"
-
         },
 
 
-        # -------------------------------------------------
+        # =================================================
         # LIGHTGBM
-        # -------------------------------------------------
+        # =================================================
 
         "lightgbm": {
 
-            "title": "LightGBM",
+            "title":
+                "LightGBM",
 
             "description":
-                "LightGBM regression prediction and evaluation calculations.",
+                "LightGBM regression prediction and evaluation.",
 
-            "type": "model",
+            "type":
+                "model",
 
             "file":
                 "lightgbm_predictions.csv"
-
         },
 
 
-        # -------------------------------------------------
-        # KMEANS
-        # -------------------------------------------------
-
-        "kmeans": {
-
-            "title": "K-Means Clustering",
-
-            "description":
-                "K-Means clustering calculation, cluster assignments and visualization.",
-
-            "type": "clustering",
-
-            "file":
-                "kmeans_clustered_data.csv",
-
-            "image":
-                "kmeans_glucose_stress_clusters.png"
-
-        },
-
-
-        # -------------------------------------------------
-        # DBSCAN
-        # -------------------------------------------------
-
-        "dbscan": {
-
-            "title": "DBSCAN Clustering",
-
-            "description":
-                "DBSCAN clustering calculation, clusters and noise points.",
-
-            "type": "clustering",
-
-            "file":
-                "dbscan_clustered_data.csv",
-
-            "image":
-                "dbscan_glucose_stress_clusters.png"
-
-        },
-
-
-        # -------------------------------------------------
-        # PCA
-        # -------------------------------------------------
-
-        "pca": {
-
-            "title": "Principal Component Analysis",
-
-            "description":
-                "PCA transformation, explained variance and dimensionality reduction.",
-
-            "type": "pca",
-
-            "file":
-                "pca_transformed_data.csv"
-
-        },
-
-
-        # -------------------------------------------------
+        # =================================================
         # COMPARISON
-        # -------------------------------------------------
+        # =================================================
 
         "comparison": {
 
-            "title": "Model Comparison",
+            "title":
+                "Model Comparison",
 
             "description":
                 "Comparison of regression model evaluation metrics.",
 
-            "type": "comparison"
-
+            "type":
+                "comparison"
         }
-
     }
 
+
+    # =====================================================
+    # CHECK SECTION
+    # =====================================================
 
     if section not in sections:
 
         return "Section not found", 404
 
-
     current = sections[section]
 
 
-    # -----------------------------------------------------
+    # =====================================================
     # LOAD DATA
-    # -----------------------------------------------------
+    # =====================================================
 
     data = None
-
 
     if "file" in current:
 
@@ -1059,12 +782,11 @@ def session(section):
         )
 
 
-    # -----------------------------------------------------
+    # =====================================================
     # REGRESSION METRICS
-    # -----------------------------------------------------
+    # =====================================================
 
     metrics = None
-
 
     if current["type"] in [
         "model",
@@ -1076,12 +798,11 @@ def session(section):
         )
 
 
-    # -----------------------------------------------------
+    # =====================================================
     # LOGISTIC METRICS
-    # -----------------------------------------------------
+    # =====================================================
 
     logistic_metrics = None
-
 
     if current["type"] == "classification":
 
@@ -1090,47 +811,20 @@ def session(section):
         )
 
 
-    # -----------------------------------------------------
-    # CLUSTER INFORMATION
-    # -----------------------------------------------------
-
-    cluster_info = None
-
-
-    if current["type"] == "clustering":
-
-        cluster_info = calculate_cluster_info(
-            data
-        )
-
-
-    # -----------------------------------------------------
-    # PCA INFORMATION
-    # -----------------------------------------------------
-
-    pca_info = None
-
-
-    if current["type"] == "pca":
-
-        pca_info = calculate_pca_info()
-
-
-    # -----------------------------------------------------
-    # EDA INFORMATION
-    # -----------------------------------------------------
+    # =====================================================
+    # EDA
+    # =====================================================
 
     eda_info = None
-
 
     if current["type"] == "eda":
 
         eda_info = get_eda_info()
 
 
-    # -----------------------------------------------------
-    # EDA PLOT STATUS
-    # -----------------------------------------------------
+    # =====================================================
+    # EDA PLOTS
+    # =====================================================
 
     eda_plots = {
 
@@ -1163,16 +857,14 @@ def session(section):
             plot_exists(
                 "categorical_distributions.png"
             )
-
     }
 
 
-    # -----------------------------------------------------
-    # TREE IMAGE STATUS
-    # -----------------------------------------------------
+    # =====================================================
+    # TREE IMAGE
+    # =====================================================
 
     tree_image_exists = False
-
 
     if current["type"] == "tree":
 
@@ -1181,15 +873,13 @@ def session(section):
         )
 
 
-    # -----------------------------------------------------
-    # COMPARISON
-    # -----------------------------------------------------
+    # =====================================================
+    # MODEL COMPARISON
+    # =====================================================
 
     comparison = []
 
-
     if current["type"] == "comparison":
-
 
         model_files = {
 
@@ -1208,9 +898,6 @@ def session(section):
             "Random Forest":
                 "random_forest_predictions.csv",
 
-            "AdaBoost":
-                "adaboost_predictions.csv",
-
             "Gradient Boosting":
                 "gradient_boosting_predictions.csv",
 
@@ -1219,27 +906,20 @@ def session(section):
 
             "LightGBM":
                 "lightgbm_predictions.csv"
-
         }
 
-
         for model_name, filename in model_files.items():
-
 
             model_data = load_csv(
                 filename
             )
 
-
             model_metrics = calculate_metrics(
                 model_data
             )
 
-
             if model_metrics is None:
-
                 continue
-
 
             comparison.append({
 
@@ -1257,16 +937,14 @@ def session(section):
 
                 "r2":
                     model_metrics["r2"]
-
             })
 
 
-    # -----------------------------------------------------
-    # ONE HOT COLUMNS
-    # -----------------------------------------------------
+    # =====================================================
+    # ONE-HOT COLUMNS
+    # =====================================================
 
     encoded_columns = []
-
 
     if current["type"] == "one-hot":
 
@@ -1277,9 +955,9 @@ def session(section):
             )
 
 
-    # -----------------------------------------------------
+    # =====================================================
     # RENDER
-    # -----------------------------------------------------
+    # =====================================================
 
     return render_template(
 
@@ -1295,10 +973,6 @@ def session(section):
 
         logistic_metrics=logistic_metrics,
 
-        cluster_info=cluster_info,
-
-        pca_info=pca_info,
-
         eda_info=eda_info,
 
         eda_plots=eda_plots,
@@ -1310,13 +984,12 @@ def session(section):
         encoded_columns=encoded_columns,
 
         section_name=section
-
     )
 
 
-# ---------------------------------------------------------
+# =========================================================
 # EDA PLOTS
-# ---------------------------------------------------------
+# =========================================================
 
 @app.route("/plots/<filename>")
 def plots(filename):
@@ -1326,7 +999,6 @@ def plots(filename):
         filename
     )
 
-
     if not os.path.exists(file_path):
 
         return (
@@ -1334,16 +1006,15 @@ def plots(filename):
             404
         )
 
-
     return send_from_directory(
         PLOTS_DIR,
         filename
     )
 
 
-# ---------------------------------------------------------
+# =========================================================
 # OUTPUT FILES
-# ---------------------------------------------------------
+# =========================================================
 
 @app.route("/output/<filename>")
 def output_file(filename):
@@ -1353,7 +1024,6 @@ def output_file(filename):
         filename
     )
 
-
     if not os.path.exists(file_path):
 
         return (
@@ -1361,16 +1031,15 @@ def output_file(filename):
             404
         )
 
-
     return send_from_directory(
         OUTPUT_DIR,
         filename
     )
 
 
-# ---------------------------------------------------------
+# =========================================================
 # RUN FLASK
-# ---------------------------------------------------------
+# =========================================================
 
 if __name__ == "__main__":
 

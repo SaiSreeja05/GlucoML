@@ -8,24 +8,36 @@ GlucoBench ML Dashboard
 
 {% block content %}
 
+
+<!-- ===================================================== -->
+<!-- HERO -->
+<!-- ===================================================== -->
+
 <div class="hero">
 
     <div>
-        <span class="hero-label">MACHINE LEARNING PROJECT</span>
 
-        <h2>GlucoBench<br>Analysis Dashboard</h2>
+        <span class="hero-label">
+            MACHINE LEARNING PROJECT
+        </span>
+
+        <h2>
+            GlucoBench<br>
+            Analysis Dashboard
+        </h2>
 
         <p>
-            Explore the dataset, preprocessing techniques,
-            regression models, classification, boosting,
-            clustering and dimensionality reduction.
+            Explore the GlucoBench dataset, preprocessing techniques,
+            regression models, tree-based models and boosting algorithms.
         </p>
 
         <a href="{{ url_for('session', section='eda') }}"
            class="primary-button">
             Start Analysis →
         </a>
+
     </div>
+
 
     <div class="hero-icon">
         📊
@@ -34,127 +46,400 @@ GlucoBench ML Dashboard
 </div>
 
 
+<!-- ===================================================== -->
+<!-- DATASET OVERVIEW -->
+<!-- ===================================================== -->
+
 <div class="section-heading">
-    <h2>Dataset Overview</h2>
-    <p>Basic information about the GlucoBench benchmark dataset.</p>
+
+    <h2>
+        Dataset Overview
+    </h2>
+
+    <p>
+        Basic information about the GlucoBench benchmark dataset.
+    </p>
+
 </div>
 
 
 <div class="stats-grid">
 
-    <div class="stat-card">
-        <div class="stat-icon">📋</div>
-        <div>
-            <span>Records</span>
-            <strong>{{ info.rows }}</strong>
-        </div>
-    </div>
 
     <div class="stat-card">
-        <div class="stat-icon">🔢</div>
-        <div>
-            <span>Features</span>
-            <strong>{{ info.columns }}</strong>
+
+        <div class="stat-icon">
+            📋
         </div>
+
+        <div>
+
+            <span>
+                Records
+            </span>
+
+            <strong>
+                {{ info.rows }}
+            </strong>
+
+        </div>
+
     </div>
 
-    <div class="stat-card">
-        <div class="stat-icon">⚠️</div>
-        <div>
-            <span>Missing Values</span>
-            <strong>{{ info.missing }}</strong>
-        </div>
-    </div>
 
     <div class="stat-card">
-        <div class="stat-icon">♻️</div>
-        <div>
-            <span>Duplicates</span>
-            <strong>{{ info.duplicates }}</strong>
+
+        <div class="stat-icon">
+            🔢
         </div>
+
+        <div>
+
+            <span>
+                Features
+            </span>
+
+            <strong>
+                {{ info.columns }}
+            </strong>
+
+        </div>
+
     </div>
+
+
+    <div class="stat-card">
+
+        <div class="stat-icon">
+            ⚠️
+        </div>
+
+        <div>
+
+            <span>
+                Missing Values
+            </span>
+
+            <strong>
+                {{ info.missing }}
+            </strong>
+
+        </div>
+
+    </div>
+
+
+    <div class="stat-card">
+
+        <div class="stat-icon">
+            ♻️
+        </div>
+
+        <div>
+
+            <span>
+                Duplicates
+            </span>
+
+            <strong>
+                {{ info.duplicates }}
+            </strong>
+
+        </div>
+
+    </div>
+
 
 </div>
 
 
+<!-- ===================================================== -->
+<!-- MACHINE LEARNING MODULES -->
+<!-- ===================================================== -->
+
 <div class="section-heading">
-    <h2>Machine Learning Modules</h2>
+
+    <h2>
+        Machine Learning Modules
+    </h2>
+
 </div>
 
 
 <div class="module-grid">
 
+
+    <!-- ================================================= -->
+    <!-- EDA -->
+    <!-- ================================================= -->
+
     <a href="{{ url_for('session', section='eda') }}"
        class="module-card">
-        <div class="module-icon">📊</div>
-        <h3>EDA</h3>
-        <p>Explore distributions, correlations and dataset characteristics.</p>
-        <span>Explore →</span>
+
+        <div class="module-icon">
+            📊
+        </div>
+
+        <h3>
+            EDA
+        </h3>
+
+        <p>
+            Explore distributions, correlations, missing values
+            and dataset characteristics.
+        </p>
+
+        <span>
+            Explore →
+        </span>
+
     </a>
 
+
+    <!-- ================================================= -->
+    <!-- PREPROCESSING -->
+    <!-- ================================================= -->
 
     <a href="{{ url_for('session', section='preprocessing') }}"
        class="module-card">
-        <div class="module-icon">⚙️</div>
-        <h3>Preprocessing</h3>
-        <p>Missing values, feature preparation and scaling techniques.</p>
-        <span>Explore →</span>
+
+        <div class="module-icon">
+            ⚙️
+        </div>
+
+        <h3>
+            Preprocessing
+        </h3>
+
+        <p>
+            Missing-value handling, feature preparation
+            and scaling techniques.
+        </p>
+
+        <span>
+            Explore →
+        </span>
+
     </a>
 
+
+    <!-- ================================================= -->
+    <!-- ONE-HOT ENCODING -->
+    <!-- ================================================= -->
+
+    <a href="{{ url_for('session', section='one-hot') }}"
+       class="module-card">
+
+        <div class="module-icon">
+            🔤
+        </div>
+
+        <h3>
+            One-Hot Encoding
+        </h3>
+
+        <p>
+            Convert categorical features into numerical
+            binary columns.
+        </p>
+
+        <span>
+            Explore →
+        </span>
+
+    </a>
+
+
+    <!-- ================================================= -->
+    <!-- REGRESSION -->
+    <!-- ================================================= -->
 
     <a href="{{ url_for('session', section='linear') }}"
        class="module-card">
-        <div class="module-icon">📈</div>
-        <h3>Regression</h3>
-        <p>Linear, Ridge and Lasso regression models.</p>
-        <span>Explore →</span>
+
+        <div class="module-icon">
+            📈
+        </div>
+
+        <h3>
+            Regression
+        </h3>
+
+        <p>
+            Linear, Ridge and Lasso regression models
+            for glucose prediction.
+        </p>
+
+        <span>
+            Explore →
+        </span>
+
     </a>
 
 
-    <a href="{{ url_for('session', section='logistic') }}"
+    <!-- ================================================= -->
+    <!-- DECISION TREE -->
+    <!-- ================================================= -->
+
+    <a href="{{ url_for('session', section='decision-tree') }}"
        class="module-card">
-        <div class="module-icon">🎯</div>
-        <h3>Classification</h3>
-        <p>Binary Logistic Regression classification.</p>
-        <span>Explore →</span>
+
+        <div class="module-icon">
+            🌳
+        </div>
+
+        <h3>
+            Decision Tree
+        </h3>
+
+        <p>
+            Predict glucose values using Decision Tree
+            regression.
+        </p>
+
+        <span>
+            Explore →
+        </span>
+
     </a>
 
+
+    <!-- ================================================= -->
+    <!-- RANDOM FOREST -->
+    <!-- ================================================= -->
 
     <a href="{{ url_for('session', section='random-forest') }}"
        class="module-card">
-        <div class="module-icon">🌳</div>
-        <h3>Tree & Boosting</h3>
-        <p>Decision Tree, Random Forest and boosting algorithms.</p>
-        <span>Explore →</span>
+
+        <div class="module-icon">
+            🌲
+        </div>
+
+        <h3>
+            Random Forest
+        </h3>
+
+        <p>
+            Ensemble tree-based regression for accurate
+            glucose prediction.
+        </p>
+
+        <span>
+            Explore →
+        </span>
+
     </a>
 
 
-    <a href="{{ url_for('session', section='kmeans') }}"
+    <!-- ================================================= -->
+    <!-- GRADIENT BOOSTING -->
+    <!-- ================================================= -->
+
+    <a href="{{ url_for('session', section='gradient-boosting') }}"
        class="module-card">
-        <div class="module-icon">🔵</div>
-        <h3>Clustering</h3>
-        <p>K-Means and DBSCAN clustering techniques.</p>
-        <span>Explore →</span>
+
+        <div class="module-icon">
+            ⚡
+        </div>
+
+        <h3>
+            Gradient Boosting
+        </h3>
+
+        <p>
+            Sequential boosting model for glucose
+            prediction.
+        </p>
+
+        <span>
+            Explore →
+        </span>
+
     </a>
 
 
-    <a href="{{ url_for('session', section='pca') }}"
+    <!-- ================================================= -->
+    <!-- XGBOOST -->
+    <!-- ================================================= -->
+
+    <a href="{{ url_for('session', section='xgboost') }}"
        class="module-card">
-        <div class="module-icon">📐</div>
-        <h3>PCA</h3>
-        <p>Dimensionality reduction and explained variance.</p>
-        <span>Explore →</span>
+
+        <div class="module-icon">
+            🔥
+        </div>
+
+        <h3>
+            XGBoost
+        </h3>
+
+        <p>
+            Advanced gradient boosting model for
+            glucose prediction.
+        </p>
+
+        <span>
+            Explore →
+        </span>
+
     </a>
 
+
+    <!-- ================================================= -->
+    <!-- LIGHTGBM -->
+    <!-- ================================================= -->
+
+    <a href="{{ url_for('session', section='lightgbm') }}"
+       class="module-card">
+
+        <div class="module-icon">
+            💡
+        </div>
+
+        <h3>
+            LightGBM
+        </h3>
+
+        <p>
+            Efficient gradient boosting model for
+            tabular glucose data.
+        </p>
+
+        <span>
+            Explore →
+        </span>
+
+    </a>
+
+
+    <!-- ================================================= -->
+    <!-- MODEL COMPARISON -->
+    <!-- ================================================= -->
 
     <a href="{{ url_for('session', section='comparison') }}"
        class="module-card">
-        <div class="module-icon">🏆</div>
-        <h3>Model Comparison</h3>
-        <p>Compare regression model performance metrics.</p>
-        <span>Explore →</span>
+
+        <div class="module-icon">
+            🏆
+        </div>
+
+        <h3>
+            Model Comparison
+        </h3>
+
+        <p>
+            Compare MAE, MSE, RMSE and R² across
+            regression models.
+        </p>
+
+        <span>
+            Explore →
+        </span>
+
     </a>
 
+
 </div>
+
 
 {% endblock %}
